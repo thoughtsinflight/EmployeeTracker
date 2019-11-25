@@ -21,9 +21,7 @@ function addDepartment() {
         message: "Enter Department you wish to add here:"
 
     }]).then(function (answer) {
-        connection.query("INSERT INTO department SET ?", {
-            name: answer.entry
-        },
+        connection.query("INSERT INTO department (name) VALUES (?)", [answer.entry],
             function (err) {
                 if (err) throw err;
                 begin();
@@ -38,9 +36,7 @@ function addRole() {
         message: "Enter the Role you wish to add here:"
 
     }]).then(function (answer) {
-        connection.query("INSERT INTO role", {
-            title: answer.entry
-        },
+        connection.query("INSERT INTO role (title) VALUES (?)", [answer.entry],
             function (err) {
                 if (err) throw err;
                 begin();
@@ -61,10 +57,10 @@ function addEmployee() {
             message: "Enter the Employee's last name here:"
         }
     ]).then(function (answer) {
-        connection.query("INSERT INTO employee", {
-            first_name: answer.firstnameentry,
-            last_name: answer.lastnameentry,
-        },
+        connection.query("INSERT INTO employee (first_name, last_name) VALUES (?, ?)", [
+            answer.firstnameentry,
+            answer.lastnameentry,
+        ],
             function (err) {
                 if (err) throw err;
                 begin();
@@ -76,6 +72,7 @@ function viewDepartment() {
     connection.query("SELECT * FROM department", function (err, res) {
         if (err) throw err;
         console.table(res);
+        begin();
     })
 };
 
@@ -83,6 +80,7 @@ function viewRoles() {
     connection.query("SELECT * FROM role", function (err, res) {
         if (err) throw err;
         console.table(res);
+        begin();
     })
 };
 
@@ -90,6 +88,7 @@ function viewEmployees() {
     connection.query("SELECT * FROM employee", function (err, res) {
         if (err) throw err;
         console.table(res);
+        begin();
     })
 };
 
