@@ -30,13 +30,29 @@ function addDepartment() {
 };
 
 function addRole() {
-    inquirer.prompt([{
-        name: "entry",
-        type: "input",
-        message: "Enter the Role you wish to add here:"
+    inquirer.prompt([
+        {
+            name: "entry",
+            type: "input",
+            message: "Enter the Role you wish to add here:"
 
-    }]).then(function (answer) {
-        connection.query("INSERT INTO role (title) VALUES (?)", [answer.entry],
+        },
+        {
+            name: "salentry",
+            type: "input",
+            message: "Salary for the role?"
+        },
+        {
+            name: "departmententry",
+            type: "input",
+            message: "Department id?"
+        }
+    ]).then(function (answer) {
+        connection.query("INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)", [
+            answer.entry,
+            answer.salentry,
+            answer.departmententry
+        ],
             function (err) {
                 if (err) throw err;
                 begin();
@@ -55,11 +71,17 @@ function addEmployee() {
             name: "lastnameentry",
             type: "input",
             message: "Enter the Employee's last name here:"
+        },
+        {
+            name: "roleentry",
+            type: "input",
+            message: "role id?"
         }
     ]).then(function (answer) {
-        connection.query("INSERT INTO employee (first_name, last_name) VALUES (?, ?)", [
+        connection.query("INSERT INTO employee (first_name, last_name, role_id) VALUES (?, ?, ?)", [
             answer.firstnameentry,
             answer.lastnameentry,
+            answer.roleentry
         ],
             function (err) {
                 if (err) throw err;
