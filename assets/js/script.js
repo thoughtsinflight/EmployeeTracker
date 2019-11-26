@@ -14,6 +14,8 @@ connection.connect(function (err) {
     begin();
 });
 
+// const firstNameget =  await connection.query("SELECT first_name FROM employee",  async function (err, res) {}
+
 function addDepartment() {
     inquirer.prompt([{
         name: "entry",
@@ -120,19 +122,25 @@ function updateRole() {
         inquirer.prompt([
             {
                 name: "choice",
-                input: "rawlist",
-                message: "Which employee's role woul you like to change?",
-                choices: function () {
+                type: "rawlist",
+                message: "Which employee's role woul you like to change?(First Name)",
+                choices: function (res) {
                     var choiceArray = [];
-                    for (var i = 0; i < results.length; i++) {
-                        choiceArray.push(res[i].item_name);
+                    for (var i = 0; i < res.length; i++) {
+                        choiceArray.push(res[i].first_name);
                     }
                     return choiceArray;
                 }
 
+            },
+            {
+                name: "rolenumberentry",
+                type: "input",
+                message:"What role id would you like to give to this Employee"
             }
-        ]).then(function () {
-
+        ]).then(function (answer) {
+            connection.query(`UPDATE employee SET role_id = ${answer.rolenumberentry} WHERE first_name = ${answer.choice}`)
+            begin();
         })
     })
 };
