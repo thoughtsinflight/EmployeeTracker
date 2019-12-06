@@ -121,6 +121,7 @@ function updateRole() {
         if (err) throw err;
         inquirer.prompt([
             {
+
                 name: "choice",
                 type: "rawlist",
                 message: "Which employee's role woul you like to change?(First Name)",
@@ -136,7 +137,7 @@ function updateRole() {
             {
                 name: "rolenumberentry",
                 type: "input",
-                message:"What role id would you like to give to this Employee"
+                message: "What role id would you like to give to this Employee"
             }
         ]).then(function (answer) {
             connection.query(`UPDATE employee SET role_id = ${answer.rolenumberentry} WHERE first_name = ${answer.choice}`)
